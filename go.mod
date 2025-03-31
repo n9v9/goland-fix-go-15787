@@ -7,3 +7,5 @@ require (
 	github.com/lmittmann/tint v1.0.7
 	golang.org/x/sys v0.30.0
 )
+
+tool github.com/cilium/ebpf/cmd/bpf2go
