@@ -1,0 +1,19 @@
+#!/usr/bin/env bpftrace
+
+BEGIN {
+    print("Run specific test inside GoLand to see syscall parameters.")
+}
+
+tracepoint:syscalls:sys_enter_execve /comm == "jspawnhelper"/ { 
+    // Just assume argv[0] to be correct. We could suffix match on "/go" but for
+    // now this works, and the output has to be checked either way.
+    if (str(args.argv[1]) != "tool") {
+        return
+    }
+    if (str(args.argv[2]) != "test2json") {
+        return
+    } 
+    printf("pid: %d\n", pid);
+    printf("argv:\n    ");
+    join(args.argv, "\n    ");
+}
