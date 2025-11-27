@@ -1,0 +1,40 @@
+---
+version: "3"
+
+tasks:
+  default:
+    desc: List all available tasks.
+    cmds:
+      - task --list-all
+    silent: true
+
+  generate:
+    desc: Build BPF files and generate Go code.
+    sources:
+      - ./bpf/*
+    generates:
+      - ./bpf_bpfel.go
+      - ./bpf_bpfel.o
+      - ./bpf_bpfeb.go
+      - ./bpf_bpfeb.o
+    cmds:
+      - bpftool btf dump file /sys/kernel/btf/vmlinux format c > ./bpf/vmlinux.h
+      - go generate ./...
+
+  build:
+    desc: Build the goland-fix-go-15787 Go binary.
+    deps:
+      - generate
+    cmds:
+      - go build -trimpath -o ./bin/goland-fix-go-15787
+    sources:
+      - ./go.{mod,sum}
+      - ./**.go
+    generates:
+      - ./bin/goland-fix-go-15787
+
+  clean:
+    desc: Delete generated artifacts.
+    cmds:
+      - rm -rf ./bin/
+      - rm -f ./bpf_bpfe{l,b}.{go,o}

@@ -1,5 +1,6 @@
 .idea/
 .vscode/
+.task/
 
 bpf/vmlinux.h
 bpf_bpfeb.o
