@@ -2,9 +2,6 @@
 .vscode/
 .task/
 
-bpf/vmlinux.h
 bpf_bpfeb.o
-bpf_bpfeb.go
 bpf_bpfel.o
-bpf_bpfel.go
 goland-fix-go-15787
