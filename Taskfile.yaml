@@ -11,15 +11,15 @@ tasks:
   generate:
     desc: Build BPF files and generate Go code.
     sources:
-      - ./bpf/*
+      - ./internal/bpf/src/*.{h,c}
     generates:
-      - ./bpf_bpfel.go
-      - ./bpf_bpfel.o
-      - ./bpf_bpfeb.go
-      - ./bpf_bpfeb.o
+      - ./internal/bpf/bpf_bpfel.{go,o}
+      - ./internal/bpf/bpf_bpfeb.{go,o}
     cmds:
-      - bpftool btf dump file /sys/kernel/btf/vmlinux format c > ./bpf/vmlinux.h
-      - go generate ./...
+      - bpftool btf dump file /sys/kernel/btf/vmlinux format c >
+        ./internal/bpf/include/vmlinux.h
+      - go tool bpf2go -tags linux -output-dir ./internal/bpf -go-package bpf
+        BPF ./internal/bpf/src/fix.c
 
   build:
     desc: Build the goland-fix-go-15787 Go binary.
@@ -37,4 +37,5 @@ tasks:
     desc: Delete generated artifacts.
     cmds:
       - rm -rf ./bin/
-      - rm -f ./bpf_bpfe{l,b}.{go,o}
+      - rm -rf ./internal/bpf/include/*.h
+      - rm -f ./internal/bpf/*.{go,o}

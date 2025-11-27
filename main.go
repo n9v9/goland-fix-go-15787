@@ -13,6 +13,7 @@ import (
 	"github.com/cilium/ebpf/ringbuf"
 	"github.com/cilium/ebpf/rlimit"
 	"github.com/lmittmann/tint"
+	"github.com/n9v9/goland-fix-go-15787/internal/bpf"
 	"golang.org/x/sys/unix"
 )
 
@@ -47,8 +48,8 @@ func run(ctx context.Context) int {
 		return -1
 	}
 
-	var objs bpfObjects
-	if err := loadBpfObjects(&objs, nil); err != nil {
+	var objs bpf.BPFObjects
+	if err := bpf.LoadBPFObjects(&objs, nil); err != nil {
 		slog.ErrorContext(ctx, "Failed to load BPF objects.", "err", err)
 		return -1
 	}

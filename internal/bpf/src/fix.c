@@ -1,4 +1,4 @@
-#include "vmlinux.h"
+#include "../include/vmlinux.h"
 #include <bpf/bpf_helpers.h>
 
 #define READ_ARGV(idx, size) \

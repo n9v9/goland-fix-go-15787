@@ -1,7 +1,9 @@
+# Tooling files.
 .idea/
 .vscode/
 .task/
 
-bpf_bpfeb.o
-bpf_bpfel.o
-goland-fix-go-15787
+# Generated files.
+bin/goland-fix-go-15787
+internal/bpf/bpf_bpfeb.o
+internal/bpf/bpf_bpfel.o
